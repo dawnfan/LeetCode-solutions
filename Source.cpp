@@ -510,6 +510,44 @@ public:
 
 		return s_out;
 	}
+
+	int maxAreaOfIsland(vector<vector<int>>& grid) {
+		int count_out = 0;
+		int n_row = grid.size();
+		int n_col = grid[0].size();
+		for (int i = 0; i < n_row; i++)
+		{
+			for (int j = 0; j < n_col; j++)
+			{
+				if (grid[i][j] == 1)	count_out = max(count_out, dfsIsland(i, j, grid));
+			}
+		}
+		return count_out;
+	}
+	int dfsIsland(int i, int j, vector<vector<int>>& grid){
+		if (i >= 0 && i < grid.size() && j >= 0 && j < grid[0].size() && grid[i][j] == 1)
+		{
+			grid[i][j] = 0;
+			return 1 + dfsIsland(i - 1, j, grid) + dfsIsland(i, j - 1, grid) + dfsIsland(i + 1, j, grid) + dfsIsland(i, j + 1, grid);
+		}
+		return 0;
+	}
+
+	// current value only connected with right node.
+	// left node should consider right.
+	int cur_great = 0;
+	void getGreater(TreeNode* root){
+		if (!root) return;
+		if (root->right) getGreater(root->right);
+		root->val += cur_great;
+		cur_great = root->val;
+		if (root->left) getGreater(root->left);
+	}
+	TreeNode* convertBST(TreeNode* root) {
+		getGreater(root);
+		return root;
+	}
+
 };
 
 void printStringVector(vector<string> strs_in){
@@ -551,7 +589,16 @@ int main(){
 	//int b = 3;
 	//cout << leetcode.getSum(a, b) << endl;
 
-	leetcode.tree2str(NULL);
+	//leetcode.tree2str(NULL);
+
+	vector<vector<int>> test_t(4);
+	int nn[] = { 1, 1, 0, 0, 0 };
+	test_t[0] = vector<int>(nn, nn + 5);
+	test_t[1] = vector<int>(nn, nn + 5);
+	int nnn[] = { 0, 0, 0, 1, 1 };
+	test_t[2] = vector<int>(nnn, nnn + 5);
+	test_t[3] = vector<int>(nnn, nnn + 5);
+	cout << leetcode.maxAreaOfIsland(test_t) << endl;
 
 	return 0;
 }
