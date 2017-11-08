@@ -572,7 +572,22 @@ public:
 	}
 
 	int titleToNumber(string s) {
-
+		int out_num = 0;
+		int sn = s.size();
+		for (int i = 0; i < sn; i++)
+		{
+			char cur_s = s[i];
+			if (cur_s > 64 && cur_s < 91)
+			{
+				out_num *= 26;
+				out_num += (cur_s - 64);
+			}
+			else{
+				out_num = -1;
+				break;
+			}
+		}
+		return out_num;
 	}
 };
 
@@ -627,9 +642,11 @@ int main(){
 	//cout << leetcode.maxAreaOfIsland(test_t) << endl;
 
 
-	int nnn[] = { 1, 2, 2, 3, 1 };
-	vector<int> tt(nnn, nnn + 5);
-	cout << leetcode.findShortestSubArray(tt) << endl;
+	//int nnn[] = { 1, 2, 2, 3, 1 };
+	//vector<int> tt(nnn, nnn + 5);
+	//cout << leetcode.findShortestSubArray(tt) << endl;
+
+	cout << leetcode.titleToNumber("AB") << endl;
 
 	return 0;
 }
