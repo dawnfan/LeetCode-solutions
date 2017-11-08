@@ -548,6 +548,32 @@ public:
 		return root;
 	}
 
+	int findShortestSubArray(vector<int>& nums) {
+		int nn = nums.size();
+		if (nn < 2) return nn;
+		map<int, int> map_index, map_count;
+		int out_length = nn, out_count = 0;
+		for (int i = 0; i < nn; i++)
+		{
+			if (map_index.find(nums[i]) == map_index.end())
+			{
+				map_index[nums[i]] = i;
+			}
+			int cur_count = ++map_count[nums[i]];
+			int cur_length = 1 + i - map_index[nums[i]];
+			if (cur_count == out_count)	out_length = min(out_length, cur_length);
+			else if (cur_count > out_count)
+			{
+				out_length = cur_length;
+				out_count = cur_count;
+			}
+		}
+		return out_length;
+	}
+
+	int titleToNumber(string s) {
+
+	}
 };
 
 void printStringVector(vector<string> strs_in){
@@ -591,14 +617,19 @@ int main(){
 
 	//leetcode.tree2str(NULL);
 
-	vector<vector<int>> test_t(4);
-	int nn[] = { 1, 1, 0, 0, 0 };
-	test_t[0] = vector<int>(nn, nn + 5);
-	test_t[1] = vector<int>(nn, nn + 5);
-	int nnn[] = { 0, 0, 0, 1, 1 };
-	test_t[2] = vector<int>(nnn, nnn + 5);
-	test_t[3] = vector<int>(nnn, nnn + 5);
-	cout << leetcode.maxAreaOfIsland(test_t) << endl;
+	//vector<vector<int>> test_t(4);
+	//int nn[] = { 1, 1, 0, 0, 0 };
+	//test_t[0] = vector<int>(nn, nn + 5);
+	//test_t[1] = vector<int>(nn, nn + 5);
+	//int nnn[] = { 0, 0, 0, 1, 1 };
+	//test_t[2] = vector<int>(nnn, nnn + 5);
+	//test_t[3] = vector<int>(nnn, nnn + 5);
+	//cout << leetcode.maxAreaOfIsland(test_t) << endl;
+
+
+	int nnn[] = { 1, 2, 2, 3, 1 };
+	vector<int> tt(nnn, nnn + 5);
+	cout << leetcode.findShortestSubArray(tt) << endl;
 
 	return 0;
 }
