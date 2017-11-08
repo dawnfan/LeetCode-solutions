@@ -589,6 +589,21 @@ public:
 		}
 		return out_num;
 	}
+
+	int minMoves(vector<int>& nums) {
+		// sum up the disparities between the minimum and others.
+		int out_move = 0;
+		int num_min = INT_MAX;
+		for (int i = 0; i < nums.size(); i++)
+		{
+			num_min = min(num_min, nums[i]);
+		}
+		for (int i = 0; i < nums.size(); i++)
+		{
+			out_move += nums[i] - num_min;
+		}
+		return out_move;
+	}
 };
 
 void printStringVector(vector<string> strs_in){
