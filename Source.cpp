@@ -604,6 +604,20 @@ public:
 		}
 		return out_move;
 	}
+
+	vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
+		set<int> numset1(nums1.begin(), nums1.end());
+		vector<int> out_nums;
+		for (int i = 0; i < nums2.size(); i++)
+		{
+			if (numset1.count(nums2[i]))
+			{
+				numset1.erase(nums2[i]);
+				out_nums.push_back(nums2[i]);
+			}
+		}
+		return out_nums;
+	}
 };
 
 void printStringVector(vector<string> strs_in){
