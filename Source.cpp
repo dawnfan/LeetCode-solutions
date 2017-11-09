@@ -618,6 +618,23 @@ public:
 		}
 		return out_nums;
 	}
+
+	bool canConstruct(string ransomNote, string magazine) {
+		bool out_re = true;
+		int mn = ransomNote.size();
+		for (int i = 0; i < mn; i++)
+		{
+			int cur_find = magazine.find(ransomNote[i]);
+			if (cur_find != -1)
+			{
+				magazine.erase(magazine.begin() + cur_find);
+			}
+			else{
+				return false;
+			}
+		}
+		return out_re;
+	}
 };
 
 void printStringVector(vector<string> strs_in){
@@ -675,7 +692,7 @@ int main(){
 	//vector<int> tt(nnn, nnn + 5);
 	//cout << leetcode.findShortestSubArray(tt) << endl;
 
-	cout << leetcode.titleToNumber("AB") << endl;
+	cout << leetcode.canConstruct("aa","aab") << endl;
 
 	return 0;
 }
