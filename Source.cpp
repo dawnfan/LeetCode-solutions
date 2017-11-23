@@ -652,6 +652,34 @@ public:
 		out_sum = getLeaf(root, false);
 		return out_sum;
 	}
+
+	bool judgeCircle(string moves) {
+		char move_tags[4] = { 'U', 'D', 'L', 'R' };
+		int move_counts[4] = { 0 };
+		for (int i = 0; i < moves.size(); i++)
+		{
+			switch (moves[i])
+			{
+			case 'U':
+				move_counts[0]++;
+				break;
+			case 'D':
+				move_counts[1]++;
+				break;
+			case 'L':
+				move_counts[2]++;
+				break;
+			case 'R':
+				move_counts[3]++;
+				break;
+			default:
+				return false;
+				break;
+			}
+		}
+		if (move_counts[0] == move_counts[1] && move_counts[2] == move_counts[3]) return true;
+		return false;
+	}
 };
 
 void printStringVector(vector<string> strs_in){
