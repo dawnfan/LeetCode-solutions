@@ -500,7 +500,7 @@ public:
 			s_out += "(";
 			s_out += s_left;
 			s_out += ")";
-			if (s_right.size() > 0) 
+			if (s_right.size() > 0)
 			{
 				s_out += "(";
 				s_out += s_right;
@@ -635,6 +635,23 @@ public:
 		}
 		return out_re;
 	}
+
+	int getLeaf(TreeNode* root, bool isLeft){
+		int out_sum = 0;
+		if (root == NULL) return out_sum;
+		out_sum += getLeaf(root->right, false);
+		out_sum += getLeaf(root->left, true);
+		if (root->right == NULL && root->left == NULL && isLeft)
+		{
+			out_sum += root->val;
+		}
+		return out_sum;
+	}
+	int sumOfLeftLeaves(TreeNode* root) {
+		int out_sum = 0;
+		out_sum = getLeaf(root, false);
+		return out_sum;
+	}
 };
 
 void printStringVector(vector<string> strs_in){
@@ -692,7 +709,7 @@ int main(){
 	//vector<int> tt(nnn, nnn + 5);
 	//cout << leetcode.findShortestSubArray(tt) << endl;
 
-	cout << leetcode.canConstruct("aa","aab") << endl;
+	cout << leetcode.canConstruct("aa", "aab") << endl;
 
 	return 0;
 }
