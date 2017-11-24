@@ -704,6 +704,24 @@ public:
 		}
 		return out_maj;
 	}
+
+	int findContentChildren(vector<int>& g, vector<int>& s) {
+		int out_num = 0;
+		// two array sorted
+		sort(g.begin(), g.end());
+		sort(s.begin(), s.end());
+		int i = 0, j = 0;
+		while (i < g.size() && j < s.size())
+		{
+			if (g[i] <= s[j])
+			{
+				out_num++;
+				i++;
+			}
+			j++;
+		}
+		return out_num;
+	}
 };
 
 void printStringVector(vector<string> strs_in){
