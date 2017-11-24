@@ -680,6 +680,30 @@ public:
 		if (move_counts[0] == move_counts[1] && move_counts[2] == move_counts[3]) return true;
 		return false;
 	}
+
+	// output max/min counting of nums => usage of STD:MAP
+	int majorityElement(vector<int>& nums) {
+		int out_maj;
+		int out_count = 0;
+		
+		map<int, int> counts_num;
+		for (int i = 0; i < nums.size(); i++)
+		{
+			if (!counts_num.count(nums[i]))
+			{
+				counts_num[nums[i]] = 0;
+			}
+			counts_num[nums[i]]++;
+			if (out_maj != nums[i] && counts_num[nums[i]] > out_count)
+			{
+				out_maj = nums[i];
+				out_count = counts_num[nums[i]];
+			}
+			else if (out_maj == nums[i]) out_count = counts_num[nums[i]];
+
+		}
+		return out_maj;
+	}
 };
 
 void printStringVector(vector<string> strs_in){
