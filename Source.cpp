@@ -737,7 +737,21 @@ public:
 	}
 
 	int firstUniqChar(string s) {
-
+		int out_index = -1;
+		map<char, int> s_count;
+		for (int i = 0; i < s.size(); i++)
+		{
+			s_count[s[i]]++;
+		}
+		for (int i = 0; i < s.size(); i++)
+		{
+			if (s_count[s[i]] == 1)
+			{
+				out_index = i; 
+				break;
+			}
+		}
+		return out_index;
 	}
 };
 
