@@ -24,7 +24,7 @@ public:
 		int xor_val = x ^ y;
 		return countBits(xor_val);
 	}
-	int countBits(int n){
+	int countBits(int n) {
 		// count the 1-bits in a number
 		n = (n & 0x55555555) + ((n >> 1) & 0x55555555);
 		n = (n & 0x33333333) + ((n >> 2) & 0x33333333);
@@ -49,7 +49,7 @@ public:
 		return out_num;
 	}
 
-	bool checkInCode(string w){
+	bool checkInCode(string w) {
 		set<char> codeset[3];
 		char code1[] = { 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P' };
 		codeset[0] = set<char>(code1, code1 + 20);
@@ -189,7 +189,7 @@ public:
 		return out_list;
 	}
 
-	TreeNode* mergeNodes(TreeNode* n1, TreeNode* n2){
+	TreeNode* mergeNodes(TreeNode* n1, TreeNode* n2) {
 		TreeNode* out_node;
 		int out_val = 0;
 		if (n1 == NULL && n2 == NULL) return NULL;
@@ -401,7 +401,7 @@ public:
 		int len = nums.size();
 		for (int i = 0; i < len; i++) {
 			int m = abs(nums[i]) - 1; // index start from 0
-			nums[m] = nums[m]>0 ? -nums[m] : nums[m];
+			nums[m] = nums[m] > 0 ? -nums[m] : nums[m];
 		}
 		vector<int> res;
 		for (int i = 0; i < len; i++) {
@@ -414,7 +414,7 @@ public:
 	int getSum(int a, int b) {
 		int out_sum = 0;
 
-		while (b != 0){
+		while (b != 0) {
 			out_sum = a^b;
 			b = (a&b) << 1;
 			a = out_sum;
@@ -422,7 +422,7 @@ public:
 		return out_sum;
 	}
 
-	bool checkTofind(vector<int>& tofind, int cur){
+	bool checkTofind(vector<int>& tofind, int cur) {
 		bool out_c = false;
 		if (!tofind.empty())
 			for (vector<int>::iterator ti = tofind.begin(); ti != tofind.end(); ti++)
@@ -524,7 +524,7 @@ public:
 		}
 		return count_out;
 	}
-	int dfsIsland(int i, int j, vector<vector<int>>& grid){
+	int dfsIsland(int i, int j, vector<vector<int>>& grid) {
 		if (i >= 0 && i < grid.size() && j >= 0 && j < grid[0].size() && grid[i][j] == 1)
 		{
 			grid[i][j] = 0;
@@ -536,7 +536,7 @@ public:
 	// current value only connected with right node.
 	// left node should consider right.
 	int cur_great = 0;
-	void getGreater(TreeNode* root){
+	void getGreater(TreeNode* root) {
 		if (!root) return;
 		if (root->right) getGreater(root->right);
 		root->val += cur_great;
@@ -582,7 +582,7 @@ public:
 				out_num *= 26;
 				out_num += (cur_s - 64);
 			}
-			else{
+			else {
 				out_num = -1;
 				break;
 			}
@@ -629,14 +629,14 @@ public:
 			{
 				magazine.erase(magazine.begin() + cur_find);
 			}
-			else{
+			else {
 				return false;
 			}
 		}
 		return out_re;
 	}
 
-	int getLeaf(TreeNode* root, bool isLeft){
+	int getLeaf(TreeNode* root, bool isLeft) {
 		int out_sum = 0;
 		if (root == NULL) return out_sum;
 		out_sum += getLeaf(root->right, false);
@@ -685,7 +685,7 @@ public:
 	int majorityElement(vector<int>& nums) {
 		int out_maj;
 		int out_count = 0;
-		
+
 		map<int, int> counts_num;
 		for (int i = 0; i < nums.size(); i++)
 		{
@@ -722,16 +722,33 @@ public:
 		}
 		return out_num;
 	}
+
+	vector<int> twoSum(vector<int>& numbers, int target) {
+		int nn = numbers.size();
+		vector<int> out_index(2);
+		for (out_index[0] = 1, out_index[1] = nn; out_index[0] < out_index[1];)
+		{
+			if (numbers[out_index[0] - 1] + numbers[out_index[1] - 1] < target)	out_index[0]++;
+			else if (numbers[out_index[0] - 1] + numbers[out_index[1] - 1] > target) out_index[1]--;
+			else
+				break;
+		}
+		return out_index;
+	}
+
+	int firstUniqChar(string s) {
+
+	}
 };
 
-void printStringVector(vector<string> strs_in){
+void printStringVector(vector<string> strs_in) {
 	for (int i = 0; i < strs_in.size(); i++)
 	{
 		cout << strs_in[i] << endl;
 	}
 }
 
-int main(){
+int main() {
 	Solution leetcode;
 	//cout << leetcode.hammingDistance(1, 4) << endl;
 	//cout << leetcode.findComplement(5) << endl;
