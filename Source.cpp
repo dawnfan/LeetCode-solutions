@@ -753,6 +753,27 @@ public:
 		}
 		return out_index;
 	}
+
+	void getSortedTree(vector<int>& out_arr, TreeNode* root) {
+		if (root == NULL) return;
+		getSortedTree(out_arr, root->left);
+		out_arr.push_back(root->val);
+		getSortedTree(out_arr, root->right);
+		return;
+	}
+	int getMinimumDifference(TreeNode* root) {
+		int out_min = INT_MAX;
+		// sort results
+		vector<int> sorted_tree;
+		getSortedTree(sorted_tree, root);
+		// get related difference
+		int nn = sorted_tree.size();
+		for (int i =0; i < nn - 1; i++)
+		{
+			out_min = min(out_min, sorted_tree[i + 1] - sorted_tree[i]);
+		}
+		return out_min;
+	}
 };
 
 void printStringVector(vector<string> strs_in) {
