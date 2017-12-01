@@ -18,6 +18,15 @@ struct TreeNode {
 	TreeNode(int x) : val(x), left(NULL), right(NULL) {}
 };
 
+
+//Definition for singly-linked list.
+struct ListNode {
+	int val;
+	ListNode *next;
+	ListNode(int x) : val(x), next(NULL) {}
+};
+
+
 class Solution {
 public:
 	int hammingDistance(int x, int y) {
@@ -747,7 +756,7 @@ public:
 		{
 			if (s_count[s[i]] == 1)
 			{
-				out_index = i; 
+				out_index = i;
 				break;
 			}
 		}
@@ -768,7 +777,7 @@ public:
 		getSortedTree(sorted_tree, root);
 		// get related difference
 		int nn = sorted_tree.size();
-		for (int i =0; i < nn - 1; i++)
+		for (int i = 0; i < nn - 1; i++)
 		{
 			out_min = min(out_min, sorted_tree[i + 1] - sorted_tree[i]);
 		}
@@ -782,8 +791,15 @@ public:
 				return isSameTree(p->left, q->left) && isSameTree(p->right, q->right);
 			}
 		}
-		else if (p == NULL && q == NULL) {return true;}
+		else if (p == NULL && q == NULL) { return true; }
 		return false;
+	}
+
+	void deleteNode(ListNode* node) {
+		ListNode* next_n = node->next;
+		node->val = next_n->val;
+		node->next = next_n->next;
+		delete next_n;
 	}
 };
 
