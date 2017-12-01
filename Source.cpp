@@ -826,6 +826,16 @@ public:
 		out_num += pre_num;
 		return out_num;
 	}
+
+	ListNode* reverseNode(ListNode*node, ListNode* pre_node){
+		if (node == NULL)	return pre_node;
+		ListNode* next_n = node->next;
+		node->next = pre_node;
+		return reverseNode(next_n, node);
+	}
+	ListNode* reverseList(ListNode* head) {
+		return reverseNode(head, NULL);
+	}
 };
 
 void printStringVector(vector<string> strs_in) {
