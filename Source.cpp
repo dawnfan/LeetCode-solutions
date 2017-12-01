@@ -3,6 +3,7 @@
 #include <vector>
 #include <set>
 #include <map>
+#include <unordered_map>
 #include <sstream>
 #include <queue>
 
@@ -800,6 +801,30 @@ public:
 		node->val = next_n->val;
 		node->next = next_n->next;
 		delete next_n;
+	}
+
+	int romanToInt(string s) {
+		//¢ñ£¨1£©¡¢X£¨10£©¡¢C£¨100£©¡¢M£¨1000£©¡¢V£¨5£©¡¢L£¨50£©¡¢D£¨500£©
+		unordered_map<char, int> pattern_num;
+		pattern_num['I'] = 1;
+		pattern_num['X'] = 10;
+		pattern_num['C'] = 100;
+		pattern_num['M'] = 1000;
+		pattern_num['V'] = 5;
+		pattern_num['L'] = 50;
+		pattern_num['D'] = 500;
+
+		int pre_num = 0;
+		int out_num = 0;
+		int nn = s.size();
+		for (int i = 0; i < nn; i++)
+		{
+			int cur_num = pattern_num[s[i]];
+			out_num += cur_num > pre_num ? -pre_num : pre_num;
+			pre_num = cur_num;
+		}
+		out_num += pre_num;
+		return out_num;
 	}
 };
 
