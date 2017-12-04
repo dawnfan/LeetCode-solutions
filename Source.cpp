@@ -856,6 +856,14 @@ public:
 		}
 		return hasSingle ? out_l * 2 + 1 : out_l * 2;
 	}
+
+	int maximumProduct(vector<int>& nums) {
+		sort(nums.begin(), nums.end());
+		int nn = nums.size();
+		int max_1 = nums[0] * nums[1] * nums[2];
+		int max_2 = nums[nn - 1] * nums[nn - 2] * nums[nn - 3];
+		return max_1 > max_2 ? max_1 : max_2;
+	}
 };
 
 void printStringVector(vector<string> strs_in) {
@@ -913,7 +921,11 @@ int main() {
 	//vector<int> tt(nnn, nnn + 5);
 	//cout << leetcode.findShortestSubArray(tt) << endl;
 
-	cout << leetcode.canConstruct("aa", "aab") << endl;
+	//cout << leetcode.canConstruct("aa", "aab") << endl;
+
+	int nnn[] = { 3, 2, 1, 4, 5 };
+	vector<int> tt(nnn, nnn + 5);
+	cout << leetcode.maximumProduct(tt) << endl;
 
 	return 0;
 }
