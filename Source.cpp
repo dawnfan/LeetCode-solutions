@@ -836,6 +836,26 @@ public:
 	ListNode* reverseList(ListNode* head) {
 		return reverseNode(head, NULL);
 	}
+
+	int longestPalindrome(string s) {
+		unordered_map<char, int> s_count;
+		int nn = s.size();
+		for (int i = 0; i < nn; i++)
+		{
+			s_count[s[i]]++;
+		}
+		int out_l = 0;
+		bool hasSingle = false;
+		for (unordered_map<char, int>::iterator s_iter = s_count.begin(); s_iter != s_count.end(); s_iter++)
+		{
+			if (!hasSingle)
+			{
+				if (s_iter->second % 2 != 0) hasSingle = true;
+			}
+			out_l += s_iter->second / 2;
+		}
+		return hasSingle ? out_l * 2 + 1 : out_l * 2;
+	}
 };
 
 void printStringVector(vector<string> strs_in) {
