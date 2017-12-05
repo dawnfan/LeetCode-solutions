@@ -891,6 +891,19 @@ public:
 		}
 		return out_inter;
 	}
+
+	int heightAndDiameter(TreeNode* root, int & cur_d){
+		if (root == NULL) return 0;
+		int left_h = heightAndDiameter(root->left, cur_d);
+		int right_h = heightAndDiameter(root->right, cur_d);
+		cur_d = max(cur_d, left_h + right_h + 1);
+		return max(left_h, right_h) + 1;
+	}
+	int diameterOfBinaryTree(TreeNode* root) {
+		int out_diameter = 0;
+		heightAndDiameter(root, out_diameter);
+		return out_diameter;
+	}
 };
 
 void printStringVector(vector<string> strs_in) {
