@@ -864,6 +864,33 @@ public:
 		int max_2 = nums[nn - 1] * nums[nn - 2] * nums[nn - 3];
 		return max_1 > max_2 ? max_1 : max_2;
 	}
+
+	vector<int> intersect(vector<int>& nums1, vector<int>& nums2) {
+		// try sorted vectors. two pointers to match.
+		vector<int> *shorter_n = nums1.size() > nums2.size() ? &nums2 : &nums1;
+		vector<int> *longer_n = nums1.size() > nums2.size() ? &nums1 : &nums2;
+		int sn = shorter_n->size();
+		int ln = longer_n->size();
+		vector<int> out_inter;
+		unordered_map<int, int> count_sn;
+		for (int i = 0; i < sn; i++)
+		{
+			count_sn[shorter_n->at(i)]++;
+		}
+		for (int i = 0; i < ln; i++)
+		{
+			int cur_n = longer_n->at(i);
+			if (count_sn.count(cur_n) > 0)
+			{
+				if (count_sn[cur_n] > 0)
+				{
+					out_inter.push_back(cur_n);
+					count_sn[cur_n]--;
+				}
+			}
+		}
+		return out_inter;
+	}
 };
 
 void printStringVector(vector<string> strs_in) {
