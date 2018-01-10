@@ -904,6 +904,34 @@ public:
 		heightAndDiameter(root, out_diameter);
 		return out_diameter;
 	}
+
+	string convertToBase7(int num) {
+		string out_s;
+		bool isPositive = num < 0 ? false : true;
+		int t = abs(num);
+		while (t > 0){
+			out_s = to_string(t % 7) + out_s;
+			t /= 7;
+		}
+		return isPositive? out_s : "-"+out_s;
+	}
+
+	vector<int> twoSum_noSort(vector<int>& nums, int target) {
+		int nn = nums.size();
+		vector<int> out_index(2);
+		unordered_map<int, int> diff_list;
+		for (int i = 0; i < nn; i++)
+		{
+			if (diff_list.count(target-nums[i]) > 0)
+			{
+				out_index[0] = diff_list[target - nums[i]];
+				out_index[1] = i;
+				break;
+			}
+			diff_list[nums[i]] = i;
+		}
+		return out_index;
+	}
 };
 
 void printStringVector(vector<string> strs_in) {
