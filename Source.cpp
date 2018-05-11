@@ -913,7 +913,7 @@ public:
 			out_s = to_string(t % 7) + out_s;
 			t /= 7;
 		}
-		return isPositive? out_s : "-"+out_s;
+		return isPositive ? out_s : "-" + out_s;
 	}
 
 	vector<int> twoSum_noSort(vector<int>& nums, int target) {
@@ -922,7 +922,7 @@ public:
 		unordered_map<int, int> diff_list;
 		for (int i = 0; i < nn; i++)
 		{
-			if (diff_list.count(target-nums[i]) > 0)
+			if (diff_list.count(target - nums[i]) > 0)
 			{
 				out_index[0] = diff_list[target - nums[i]];
 				out_index[1] = i;
@@ -931,6 +931,64 @@ public:
 			diff_list[nums[i]] = i;
 		}
 		return out_index;
+	}
+
+	ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+		ListNode* output_num = new ListNode((l1->val + l2->val) % 10);
+		int next_add = (l1->val + l2->val) / 10;
+		ListNode* pre_digit = output_num;
+		l1 = l1->next; l2 = l2->next;
+		while (l1 || l2)
+		{
+			int cur_num = (l1 == NULL ? 0 : l1->val) + (l2 == NULL ? 0 : l2->val);
+			cur_num += next_add;
+			next_add = cur_num / 10;
+			cur_num = cur_num % 10;
+			ListNode* cur_digit = new ListNode(cur_num);
+			pre_digit->next = cur_digit;
+			pre_digit = cur_digit;
+			if (l1)	l1 = l1->next;
+			if (l2)	l2 = l2->next;
+		}
+		if (next_add)
+		{
+			pre_digit->next = new ListNode(next_add);
+		}
+		return output_num;
+	}
+
+	int lengthOfLongestSubstring(string s) {
+		// one way
+		//vector<int> dict(256, -1);
+		//int maxLen = 0, start = -1;
+		//for (int i = 0; i != s.length(); i++) {
+		//	if (dict[s[i]] > start)
+		//		start = dict[s[i]];
+		//	dict[s[i]] = i;
+		//	maxLen = max(maxLen, i - start);
+		//}
+		//return maxLen;
+
+		// finished.
+		int out_num = 0;
+		map<char, int> temp_sub;
+		int nn = s.size();
+		int pre_sub = -1;
+		for (int i = 0; i < nn; i++)
+		{
+			if (temp_sub.find(s[i]) == temp_sub.end())
+			{
+				temp_sub[s[i]] = i;
+				out_num = max(out_num, i - pre_sub);
+			}
+			else
+			{
+				pre_sub = temp_sub[s[i]] > pre_sub? temp_sub[s[i]]:pre_sub;
+				out_num = max(out_num, i - pre_sub);
+				temp_sub[s[i]] = i;
+			}
+		}
+		return out_num;
 	}
 };
 
@@ -991,9 +1049,16 @@ int main() {
 
 	//cout << leetcode.canConstruct("aa", "aab") << endl;
 
-	int nnn[] = { 3, 2, 1, 4, 5 };
-	vector<int> tt(nnn, nnn + 5);
-	cout << leetcode.maximumProduct(tt) << endl;
+	//int nnn[] = { 3, 2, 1, 4, 5 };
+	//vector<int> tt(nnn, nnn + 5);
+	//cout << leetcode.maximumProduct(tt) << endl;
+
+	//ListNode* l1 = new ListNode(1);
+	//ListNode* l2 = new ListNode(2);
+	//cout << leetcode.addTwoNumbers(l1, l2)->val << endl;
+
+	string tt = "ynyo";
+	cout << leetcode.lengthOfLongestSubstring(tt) << endl;
 
 	return 0;
 }
