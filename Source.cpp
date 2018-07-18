@@ -990,6 +990,39 @@ public:
 		}
 		return out_num;
 	}
+
+	double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+		double out_median;
+		int m = nums1.size();
+		int n = nums2.size();
+		bool isOdd = (nums1.size() + nums2.size()) % 2;
+		int toStop = (nums1.size() + nums2.size()) / 2 + 1;
+		nums1.push_back(INT_MAX);
+		nums2.push_back(INT_MAX);
+		int curcount = 0;
+		int prenum = 0;
+		int curnum = 0;
+		for (int i = 0, j = 0; i + j < m + n;)
+		{
+			if (i > m) { int curind = toStop - i; curnum = nums2[curind]; prenum = (curind - 1 > j) ? nums2[curind - 1] : prenum; break; }
+			else if (j > n) { int curind = toStop - j; curnum = nums1[curind]; prenum = (curind - 1 > i) ? nums1[curind - 1] : prenum; break; }
+			else if (nums1[i] > nums2[j])
+			{
+				curnum = nums2[j];	j++;	
+			}
+			else
+			{
+				curnum = nums1[i];	i++;
+			}
+			curcount++;
+			if (curcount == toStop)
+			{
+				out_median = isOdd ? curnum : (curnum + prenum) / 2.0;
+			}
+			prenum = curnum;
+		}
+		return out_median;
+	}
 };
 
 void printStringVector(vector<string> strs_in) {
