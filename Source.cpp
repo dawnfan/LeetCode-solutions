@@ -1023,6 +1023,50 @@ public:
 		}
 		return out_median;
 	}
+
+	string longestPalindrome_(string s) {
+		string out_sub = "";
+		int maxlen = 0;
+		int subpos = -1;
+		int dpsub[1000][1000] = { 0 };
+		for (int i = 0; i < s.size(); i++)
+		{
+			for (int j = 0; j < s.size(); j++)
+			{
+				if (s[i] == s[s.size() - 1 - j])
+				{
+					if (i > 0 && j > 0)
+					{
+						dpsub[i][j] = dpsub[i - 1][j - 1] + 1;
+					}
+					else
+					{
+						dpsub[i][j] = 1;
+					}
+					if (maxlen < dpsub[i][j])
+					{
+						maxlen = dpsub[i][j];
+						if (j == i - maxlen + 1)
+						{
+							subpos = i;
+						}
+					}
+				}
+			}
+		}
+		if (subpos == -1)
+		{
+			out_sub = s[0];
+		}
+		else out_sub = s.substr(subpos - maxlen + 1, maxlen);
+		return out_sub;
+	}
+
+	int scoreOfParentheses(string S) {
+		int out_score;
+
+		return out_score;
+	}
 };
 
 void printStringVector(vector<string> strs_in) {
