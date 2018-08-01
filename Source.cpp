@@ -6,6 +6,7 @@
 #include <unordered_map>
 #include <sstream>
 #include <queue>
+#include <stack>
 
 using namespace std;
 
@@ -1062,11 +1063,76 @@ public:
 		return out_sub;
 	}
 
+	//856. Score of Parentheses
 	int scoreOfParentheses(string S) {
-		int out_score;
+		// tip: find the pattern how actions is pushed into the stack
+		int out_score = 0;
+		stack<int> actionlist;
 
-
+		int val = 0;
+		for (int i = 0; i < S.size()-1; i++)
+		{
+			if (S.substr(i, 2) == "((")
+			{
+				actionlist.push(2); // * 2
+			}
+			else if (S.substr(i, 2) == "()")
+			{
+				actionlist.push(1); // 1
+			}
+			else if (S.substr(i, 2) == ")(")
+			{
+				if (actionlist.top() != 0)
+					actionlist.push(0); // +
+			}
+			else if (S.substr(i, 2) == "))")
+			{
+				int cur = actionlist.top();
+				actionlist.pop();
+				val += cur;
+				do 
+				{
+					cur = actionlist.top();
+					actionlist.pop();
+					if (cur == 0)
+					{
+						val += actionlist.top();
+						actionlist.pop();
+						//cur = actionlist.top();
+						//actionlist.pop();
+					}
+				} while (cur != 2);
+				val *= cur;
+				actionlist.push(val);
+				//actionlist.push(0);
+				val = 0;
+			}
+		}
+		while (!actionlist.empty())
+		{
+			out_score += actionlist.top();
+			actionlist.pop();
+		}
 		return out_score;
+	}
+	int helper(const string& S, int l, int r)
+	{
+		if (r - l == 1) return 1;
+		int b = 0;
+		for (int i = l; i < r; ++i)
+		{
+			if (S[i] == '(') b++;
+			if (S[i] == ')') b--;
+			if (b == 0)
+			{
+				return helper(S, l, i) + helper(S, i + 1, r);
+			}
+		}
+		return 2 * helper(S, l + 1, r - 1);
+	}
+	int scoreOfParentheses2(string S) {
+		// recursive, directly using division.
+		return helper(S, 0, S.size() - 1);
 	}
 };
 
