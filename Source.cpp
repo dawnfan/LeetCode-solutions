@@ -828,7 +828,7 @@ public:
 		return out_num;
 	}
 
-	ListNode* reverseNode(ListNode*node, ListNode* pre_node){
+	ListNode* reverseNode(ListNode*node, ListNode* pre_node) {
 		if (node == NULL)	return pre_node;
 		ListNode* next_n = node->next;
 		node->next = pre_node;
@@ -893,7 +893,7 @@ public:
 		return out_inter;
 	}
 
-	int heightAndDiameter(TreeNode* root, int & cur_d){
+	int heightAndDiameter(TreeNode* root, int & cur_d) {
 		if (root == NULL) return 0;
 		int left_h = heightAndDiameter(root->left, cur_d);
 		int right_h = heightAndDiameter(root->right, cur_d);
@@ -910,7 +910,7 @@ public:
 		string out_s;
 		bool isPositive = num < 0 ? false : true;
 		int t = abs(num);
-		while (t > 0){
+		while (t > 0) {
 			out_s = to_string(t % 7) + out_s;
 			t /= 7;
 		}
@@ -984,7 +984,7 @@ public:
 			}
 			else
 			{
-				pre_sub = temp_sub[s[i]] > pre_sub? temp_sub[s[i]]:pre_sub;
+				pre_sub = temp_sub[s[i]] > pre_sub ? temp_sub[s[i]] : pre_sub;
 				out_num = max(out_num, i - pre_sub);
 				temp_sub[s[i]] = i;
 			}
@@ -1009,7 +1009,7 @@ public:
 			else if (j > n) { int curind = toStop - j; curnum = nums1[curind]; prenum = (curind - 1 > i) ? nums1[curind - 1] : prenum; break; }
 			else if (nums1[i] > nums2[j])
 			{
-				curnum = nums2[j];	j++;	
+				curnum = nums2[j];	j++;
 			}
 			else
 			{
@@ -1025,11 +1025,14 @@ public:
 		return out_median;
 	}
 
+	//5. Longest Palindromic Substring
 	string longestPalindrome_(string s) {
 		string out_sub = "";
+		if (s.size() == 0) return out_sub;
 		int maxlen = 0;
 		int subpos = -1;
-		int dpsub[1000][1000] = { 0 };
+		// the stack can overflow if not 'static'.
+		static int dpsub[1000][1000] = { 0 };
 		for (int i = 0; i < s.size(); i++)
 		{
 			for (int j = 0; j < s.size(); j++)
@@ -1046,20 +1049,16 @@ public:
 					}
 					if (maxlen < dpsub[i][j])
 					{
-						maxlen = dpsub[i][j];
-						if (j == i - maxlen + 1)
-						{
+						// limit the position  we find, since the reverse one should be the relative
+						if ((j - dpsub[i][j] + 1) == (s.size() - 1 - i)) {
+							maxlen = dpsub[i][j];
 							subpos = i;
 						}
 					}
 				}
 			}
 		}
-		if (subpos == -1)
-		{
-			out_sub = s[0];
-		}
-		else out_sub = s.substr(subpos - maxlen + 1, maxlen);
+		out_sub = s.substr(subpos - maxlen + 1, maxlen);
 		return out_sub;
 	}
 
@@ -1070,7 +1069,7 @@ public:
 		stack<int> actionlist;
 
 		int val = 0;
-		for (int i = 0; i < S.size()-1; i++)
+		for (int i = 0; i < S.size() - 1; i++)
 		{
 			if (S.substr(i, 2) == "((")
 			{
@@ -1090,7 +1089,7 @@ public:
 				int cur = actionlist.top();
 				actionlist.pop();
 				val += cur;
-				do 
+				do
 				{
 					cur = actionlist.top();
 					actionlist.pop();
@@ -1133,6 +1132,57 @@ public:
 	int scoreOfParentheses2(string S) {
 		// recursive, directly using division.
 		return helper(S, 0, S.size() - 1);
+	}
+
+	//6. ZigZag Conversion
+	string convert(string s, int numRows) {
+		string out_str = "";
+		if (s.size() <= numRows || numRows < 2)
+		{
+			return s;
+		}
+		int warpnum = (numRows + numRows - 2);
+		int colnum_o = s.size() / warpnum;
+		int remainnum = s.size() % warpnum;
+		int colnum = remainnum > 0 ? colnum_o + 1 : colnum_o;
+		// encode the string
+		for (int i = 0; i < colnum; i++)
+		{
+			int cur_pre = i * (warpnum + (numRows - 2)*(numRows - 1)) + numRows;
+			for (int t = 0; t < numRows - 1; t++)
+			{
+				int curind = cur_pre + t*(numRows - 1);
+				if (curind > (s.size() - 1))
+				{
+					break;
+				}
+				s.insert(curind, numRows - 2, ' ');
+			}
+		}
+		s.append(numRows, ' ');
+		// decode the string
+		int warpcolnum = colnum_o*(numRows - 1);
+		if (remainnum > numRows)
+		{
+			warpcolnum += remainnum - numRows + 1;
+		}
+		else if (remainnum > 0)
+		{
+			warpcolnum += 1;
+		}
+		for (int i = 0; i < numRows; i++)
+		{
+			for (int j = 0; j < warpcolnum; j++)
+			{
+				int curind = j*numRows + i;
+				if (s[curind] != ' ')
+				{
+					out_str.append(s, curind, 1);
+				}
+			}
+		}
+
+		return out_str;
 	}
 };
 
@@ -1201,8 +1251,8 @@ int main() {
 	//ListNode* l2 = new ListNode(2);
 	//cout << leetcode.addTwoNumbers(l1, l2)->val << endl;
 
-	string tt = "ynyo";
-	cout << leetcode.lengthOfLongestSubstring(tt) << endl;
+	string tt = leetcode.convert("ABCD", 3);
+	cout << tt << endl;
 
 	return 0;
 }
