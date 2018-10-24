@@ -27,6 +27,59 @@ struct ListNode {
 	ListNode(int x) : val(x), next(NULL) {}
 };
 
+// build tree from a list (BFS)
+TreeNode* makeTreeNode(int val)
+{
+	if (val == 0)
+	{
+		return NULL;
+	}
+	return new TreeNode(val);
+}
+TreeNode* buildTree(vector<int> treelist)
+{
+	if (treelist.empty()) return NULL;
+	TreeNode* root = makeTreeNode(treelist[0]);
+	queue<TreeNode*> nodelist;
+	nodelist.push(root);
+	int curind = 1;
+	while (curind < treelist.size() && !nodelist.empty())
+	{
+		TreeNode* cur = nodelist.front();
+		nodelist.pop();
+		if (cur != NULL)
+		{
+			cur->left = makeTreeNode(treelist[curind]);
+			cur->right = makeTreeNode(treelist[curind + 1]);
+			nodelist.push(cur->left);
+			nodelist.push(cur->right);
+			curind += 2;
+		}
+	}
+	return root;
+}
+// encode tree into list (BFS)
+vector<int> makelistTree(TreeNode* root)
+{
+	vector<int> outlist;
+	if (root == NULL) return outlist;
+	queue<TreeNode*> nodelist;
+	nodelist.push(root);
+	while (!nodelist.empty())
+	{
+		TreeNode* cur = nodelist.front();
+		nodelist.pop();
+		if (cur == NULL)
+		{
+			outlist.push_back(0);
+			continue;
+		}
+		outlist.push_back(cur->val);
+		nodelist.push(cur->left);
+		nodelist.push(cur->right);
+	}
+	return outlist;
+}
 
 class Solution {
 public:
@@ -1068,6 +1121,47 @@ public:
 
 		return out_score;
 	}
+
+	// which?
+	void getMinDistance(int N, int M, int* mmap){
+		int** outmap = new int*[N];
+		for (int i = 0; i < N; i++)
+		{
+			outmap[i] = new int[N];
+		}
+
+		for (int m = 0; m < M; m++)
+		{
+			for (int i = 0; i < N; i++)
+			{
+				for (int j = 0; j < N; j++)
+				{
+
+				}
+			}
+		}
+		for (int i = 0; i < N; i++)
+		{
+			for (int j = 0; j < N; j++)
+			{
+				cout << outmap << ' ';
+			}
+			cout << endl;
+		}
+	}
+
+	TreeNode* increasingBST(TreeNode* root, TreeNode* last = NULL) {
+		//897. Increasing Order Search Tree
+
+		if (root == NULL) return last;
+
+		TreeNode* lroot = increasingBST(root->left, root);
+
+		root->left = NULL;// break the left
+		TreeNode* rroot = increasingBST(root->right, last);
+		root->right = rroot;
+		return lroot;
+	}
 };
 
 void printStringVector(vector<string> strs_in) {
@@ -1135,8 +1229,104 @@ int main() {
 	//ListNode* l2 = new ListNode(2);
 	//cout << leetcode.addTwoNumbers(l1, l2)->val << endl;
 
-	string tt = "ynyo";
-	cout << leetcode.lengthOfLongestSubstring(tt) << endl;
+	//string tt = "ynyo";
+	//cout << leetcode.lengthOfLongestSubstring(tt) << endl;
+
+	//int N, M;
+	//cin >> N >> M;
+	//int** mmap = new int*[N];
+	//for (int i = 0; i < N; i++)
+	//{
+	//	mmap[i] = new int[N];
+	//}
+	//int ti, tj;
+	//cin >> ti >> tj;
+	//for (int i = 0; i < ti; i++)
+	//{
+	//	for (int j = 0; j < tj; j++)
+	//	{
+	//		cin >> mmap[i][j];
+	//	}
+	//}
+
+	int nodelist[] = { 5, 3, 6, 2, 4, 0, 8, 1, 0, 0, 0, 7, 9 };
+	vector<int> treelist(nodelist, nodelist + 13);
+	TreeNode* root = buildTree(treelist);
+	TreeNode* mytree = leetcode.increasingBST(root);
+	vector<int> mylist = makelistTree(mytree);
 
 	return 0;
 }
+
+
+//#include <iostream>
+//#include <cstdio>
+//#include <vector>
+//
+//using namespace std;
+//
+//void myInsertSort(int num, vector<int>& alist)
+//{
+//	int i = 0;
+//	while (i < alist.size())
+//	{
+//		if (num < alist[i])
+//		{
+//			int temp = alist[i];
+//			alist[i] = num;
+//			int t = i + 1;
+//			while (t < alist.size())
+//			{
+//				int ttemp = alist[t];
+//				alist[t] = temp;
+//				temp = ttemp;
+//				if (alist[i] == -1)
+//				{
+//					alist[i] = num;
+//					return;
+//				}
+//				t++;
+//			}
+//			return;
+//		}
+//		else{
+//			if (alist[i] == -1)
+//			{
+//				alist[i] = num;
+//				return;
+//			}
+//			i++;
+//		}
+//	}
+//}
+//
+//int main(){
+//	//freopen("1.in","r",stdin);
+//	int n, ans = 0;
+//	cin >> n;
+//	vector<int> alist(n, -1);
+//	for (int i = 0; i < n; i++){
+//
+//			int x; cin >> x;
+//			myInsertSort(x, alist);
+//
+//	}
+//	int i = n;
+//	for (i = n - 1; i > -1; i--)
+//	{
+//		if (i - 1 > -1)
+//		{
+//			ans += alist[i] - alist[i - 1];
+//			i--;
+//		}
+//		else{
+//			break;
+//		}
+//	}
+//	if (i == 0){
+//		ans += alist[i];
+//	}
+//
+//	cout << ans << endl;
+//	return 0;
+//}
